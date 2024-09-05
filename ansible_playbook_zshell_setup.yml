@@ -1,0 +1,44 @@
+---
+- name: Set up Zsh and Oh My Zsh with plugins
+  hosts: localhost
+  become: yes
+  tasks:
+    - name: Install Zsh
+      apt:
+        name: zsh
+        state: present
+
+    - name: Set Zsh as the default shell
+      command: chsh -s /bin/zsh {{ ansible_user }}
+
+    - name: Install Git (required for Oh My Zsh)
+      apt:
+        name: git
+        state: present
+
+    - name: Install Oh My Zsh
+      shell: |
+        sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+      args:
+        creates: ~/.oh-my-zsh
+
+    - name: Clone zsh-autosuggestions plugin
+      git:
+        repo: https://github.com/zsh-users/zsh-autosuggestions
+        dest: "{{ ansible_env.HOME }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
+
+    - name: Clone zsh-syntax-highlighting plugin
+      git:
+        repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
+        dest: "{{ ansible_env.HOME }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
+
+    - name: Configure plugins in .zshrc
+      lineinfile:
+        path: "{{ ansible_env.HOME }}/.zshrc"
+        regexp: "^plugins="
+        line: "plugins=(git zsh-autosuggestions zsh-syntax-highlighting)"
+
+    - name: Source .zshrc to apply changes
+      shell: source ~/.zshrc
+      args:
+        executable: /bin/zsh
