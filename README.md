@@ -17,7 +17,15 @@
 
 `xclip -selection clipboard < file.txt`
 
-Some things/commands i have being using often on my server journey:
+# things I installed:
+
+- Tool to manipulate video:
+  - `sudo apt install ffmpeg`
+- Tool to copy text to the clipboard with the terminal:
+  - `sudo apt install xclip`
+-
+
+# Some things/commands i have being using often on my server journey:
 
 Docker commands:
 See images: docker images

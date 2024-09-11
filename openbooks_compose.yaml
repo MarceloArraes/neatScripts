@@ -1,0 +1,18 @@
+version: "3.3"
+services:
+  openbooks:
+    image: evanbuss/openbooks
+    container_name: openbooks
+    command: --name neoncoder --log --persist -searchbot searchook --tls=false -s irc.irchighway.net:6663
+    ports:
+      - 8200:80
+    volumes:
+      - /home/marceloserver/openBooks:/books
+    environment:
+      - NODE_ENV=production
+    labels:
+      - deunhealth.restart.on.unhealthy=true
+    restart: unless-stopped
+networks:
+  bridge:
+    external: true
