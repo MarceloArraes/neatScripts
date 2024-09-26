@@ -16,3 +16,8 @@ services:
       - 6881:6881/udp
       - 58846:58846 #optional
     restart: unless-stopped
+# sudo useradd -r -m -d /var/lib/deluge -s /usr/sbin/nologin -g deluge deluge
+#
+# sudo chown -R deluge:deluge /var/lib/deluge
+#
+#
