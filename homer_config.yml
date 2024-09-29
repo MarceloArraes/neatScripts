@@ -113,21 +113,10 @@ links:
 # First level array represents a group.
 # Leave only a "items" key if not using group (group name, icon & tagstyle are optional, section separation will not be displayed).
 services:
-  - name: "Application"
-    icon: "fas fa-code-branch"
-    # A path to an image can also be provided. Note that icon take precedence if both icon and logo are set.
-    # logo: "path/to/logo"
-    # class: "highlight-purple" # Optional css class to add on the service group.
+  - name: "Video/Streaming"
+    icon: "fas fa-video"
+    class: "highlight-purple"
     items:
-      - name: "PhotoPrism"
-        logo: "assets/tools/photoprism.svg"
-        # Alternatively a fa icon can be provided:
-        # icon: "fab fa-jenkins"
-        subtitle: "My personal google photos"
-        tag: "app"
-        keywords: "Photos images videos personal" # optional keyword used for searching purpose
-        url: "http://10.0.0.4:2342/"
-        target: "_blank" # optional html tag target attribute
       - name: "Deluge"
         logo: "assets/tools/deluge.png"
         # Alternatively a fa icon can be provided:
@@ -144,21 +133,22 @@ services:
         keywords: "jellyfin videos movies" #optional keyword used for searching purpose
         url: "http://10.0.0.4:8096/"
         target: "_blank" # optional html tag target attribute
-      - name: "Portiner"
-        logo: "assets/tools/portiner.png"
-        subtitle: "Docker containers manager"
+
+  - name: "Application"
+    icon: "fas fa-code-branch"
+    # A path to an image can also be provided. Note that icon take precedence if both icon and logo are set.
+    # logo: "path/to/logo"
+    # class: "highlight-purple" # Optional css class to add on the service group.
+    items:
+      - name: "PhotoPrism"
+        logo: "assets/tools/photoprism.svg"
+        # Alternatively a fa icon can be provided:
+        # icon: "fab fa-jenkins"
+        subtitle: "My personal google photos"
         tag: "app"
-        keywords: "portainer docker management" #optional keyword used for searching purpose
-        url: "https://10.0.0.4:9443/"
+        keywords: "Photos images videos personal" # optional keyword used for searching purpose
+        url: "http://10.0.0.4:2342/"
         target: "_blank" # optional html tag target attribute
-      - name: "AudioBookShelf"
-        logo: "assets/tools/audiobookshelf.png"
-        subtitle: "My audio book library"
-        tag: "app"
-        # Optional tagstyle
-        tagstyle: "is-success"
-        url: "http://10.0.0.4:13378/"
-        target: "_blank"
       - name: "NextCloud"
         logo: "assets/tools/nextcloud.png"
         # Alternatively a fa icon can be provided:
@@ -167,6 +157,44 @@ services:
         tag: "app"
         keywords: "Files store space" # optional keyword used for searching purpose
         url: "http://10.0.0.4:8080/"
+        target: "_blank" # optional html tag target attribute
+
+  - name: "Books"
+    icon: "fas fa-book-open"
+    items:
+      - name: "AudioBookShelf"
+        logo: "assets/tools/audiobookshelf.png"
+        subtitle: "My audio book library"
+        tag: "app"
+        # Optional tagstyle
+        tagstyle: "is-success"
+        url: "http://10.0.0.4:13378/"
+        target: "_blank"
+      - name: "CalibreWeb"
+        logo: "assets/tools/calibre.png"
+        subtitle: "My book library for kindle"
+        tag: "app"
+        # Optional tagstyle
+        tagstyle: "is-success"
+        url: "http://10.0.0.4:8083/"
+        target: "_blank"
+      - name: "OpenBooks"
+        logo: "assets/tools/openbooks.jpg"
+        subtitle: "Booking searching tool"
+        tag: "app"
+        # Optional tagstyle
+        tagstyle: "is-success"
+        url: "http://10.0.0.4:8200/"
+        target: "_blank"
+  - name: "Admin"
+    icon: "fas fa-network-wired"
+    items:
+      - name: "Portiner"
+        logo: "assets/tools/portiner.png"
+        subtitle: "Docker containers manager"
+        tag: "app"
+        keywords: "portainer docker management" #optional keyword used for searching purpose
+        url: "https://10.0.0.4:9443/"
         target: "_blank" # optional html tag target attribute
       - name: "Uptime Kuma"
         logo: "assets/tools/uptimekuma.png"
@@ -177,15 +205,5 @@ services:
         keywords: "Uptime kuma monitoring" #optional keyword used for searching purpose
         url: "http://10.0.0.4:3001/"
         target: "_blank" # optional html tag target attribute
-  - name: "Other group"
-    icon: "fas fa-heartbeat"
-    items:
-      - name: "Pi-hole"
-        logo: "assets/tools/sample.png"
-        # subtitle: "Network-wide Ad Blocking" # optional, if no subtitle is defined, PiHole statistics will be shown
-        tag: "other"
-        url: "http://192.168.0.151/admin"
-        type: "PiHole" # optional, loads a specific component that provides extra features. MUST MATCH a file name (without file extension) available in `src/components/services`
-        target: "_blank" # optional html a tag target attribute
         # class: "green" # optional custom CSS class for card, useful with custom stylesheet
         # background: red # optional color for card to set color directly without custom stylesheet
