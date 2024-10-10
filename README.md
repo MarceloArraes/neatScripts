@@ -1,14 +1,14 @@
 # neatScripts
 
-# to run the ansible script to setup zshell do this:
+# to run the ansible script to setup zshell do this
 
 `ansible-playbook install-ohmyzsh.yml --ask-become-pass`
 
-# docker deluge:
+# docker deluge
 
 `https://github.com/linuxserver/docker-deluge`
 
-# jellyfin:
+# jellyfin
 
 `https://jellyfin.org/docs/general/installation/container/`
 `https://github.com/jellyfin/jellyfin`
@@ -17,7 +17,7 @@
 
 `xclip -selection clipboard < file.txt`
 
-# things I installed:
+# things I installed
 
 - Tool to manipulate video:
   - `sudo apt install ffmpeg`
@@ -25,7 +25,7 @@
   - `sudo apt install xclip`
 -
 
-# Some things/commands i have being using often on my server journey:
+# Some things/commands i have being using often on my server journey
 
 Docker commands:
 See images: docker images
@@ -53,7 +53,7 @@ See then:
 sudo ufw status
 
 Configuring Postgres for connection to Nextcloud:
-https://hub.docker.com/_/postgres/
+<https://hub.docker.com/_/postgres/>
 sudo ufw s
 ssh-keygen -t rsa -b 4096
 $ docker run --name some-postgres -e POSTGRES_PASSWORD=mysecretpassword -d postgres
@@ -88,8 +88,8 @@ Copy code
 
 # Special Tuesday shutdown at 10 PM
 
-0 22 \* _ 2 /sbin/shutdown -h now
-Here, 0 0 _ \* _ represents midnight every day, and 0 22 _ \* 2 represents 10 PM on Tuesdays.
+0 22 \* _2 /sbin/shutdown -h now
+Here, 0 0_ \* _represents midnight every day, and 0 22_ \* 2 represents 10 PM on Tuesdays.
 Save and exit. 2. Schedule Startup Using systemd
 Create a Service Unit File
 Create a new service file for the reboot command:
@@ -150,3 +150,7 @@ sudo systemctl enable reboot-regular.timer
 sudo systemctl enable reboot-tuesday.timer
 sudo systemctl start reboot-regular.timer
 sudo systemctl start reboot-tuesday.timer
+
+## To remember
+
+- I should put depends on the docker compose file, so that the containers start only when the other previous necessary docker containers are up and running.
