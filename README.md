@@ -82,11 +82,11 @@ Add the following lines to handle the shutdown at midnight and the special Tuesd
 bash
 Copy code
 
-# Shutdown every day at midnight
+## Shutdown every day at midnight
 
 0 0 \* \* \* /sbin/shutdown -h now
 
-# Special Tuesday shutdown at 10 PM
+## Special Tuesday shutdown at 10 PM
 
 0 22 \* _2 /sbin/shutdown -h now
 Here, 0 0_ \* _represents midnight every day, and 0 22_ \* 2 represents 10 PM on Tuesdays.
