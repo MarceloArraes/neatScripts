@@ -17,7 +17,7 @@ mkdir -p $BACKUP_DIR
 DB_BACKUP_FILE="$BACKUP_DIR/affine_backup_$(date +%Y%m%d_%H%M%S).sql"
 
 # Backup the PostgreSQL database
-pg_dump -U affine -h localhost -p 5434 -W affine  -d affine -F c -f $DB_BACKUP_FILE
+pg_dump -U affine -h localhost -p 5434 -d affine -F c -f $DB_BACKUP_FILE
 
 # Define S3 paths using environment variable
 #S3_CONFIG_DIR="$S3_BUCKET/affine/config"
@@ -34,3 +34,5 @@ aws s3 sync $BACKUP_DIR $S3_DB_BACKUP_DIR
 
 # Log success message
 echo "Backup completed to S3"
+
+
