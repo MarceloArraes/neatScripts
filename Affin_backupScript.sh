@@ -1,12 +1,13 @@
-#!/bin/bash
+#!/usr/bin/env zsh
 
+source ~/.zshrc
 # Load environment variables from .env file
 export $(grep -v '^#' .env | xargs)
 
 # Define paths
-# CONFIG_DIR=~/.affine/self-host/config
-# STORAGE_DIR=~/.affine/self-host/storage
-# POSTGRES_DIR=~/.affine/self-host/postgres
+CONFIG_DIR=~/.affine/self-host/config
+STORAGE_DIR=~/.affine/self-host/storage
+POSTGRES_DIR=~/.affine/self-host/postgres
 BACKUP_DIR=~/.affine/self-host/backups  # Create a directory for backups
 
 # Create backup directory if it doesn't exist
@@ -16,7 +17,7 @@ mkdir -p $BACKUP_DIR
 DB_BACKUP_FILE="$BACKUP_DIR/affine_backup_$(date +%Y%m%d_%H%M%S).sql"
 
 # Backup the PostgreSQL database
-pg_dump -U affine -h localhost -d affine -F c -f $DB_BACKUP_FILE
+pg_dump -U affine -h localhost -p 5434 -W affine  -d affine -F c -f $DB_BACKUP_FILE
 
 # Define S3 paths using environment variable
 #S3_CONFIG_DIR="$S3_BUCKET/affine/config"
