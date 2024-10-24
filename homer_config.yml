@@ -186,6 +186,22 @@ services:
         tagstyle: "is-success"
         url: "http://10.0.0.4:8200/"
         target: "_blank"
+      - name: "Affine"
+        logo: "assets/tools/affine.jpg"
+        subtitle: "Notes Tools"
+        tag: "app"
+        # Optional tagstyle
+        tagstyle: "is-success"
+        url: "http://10.0.0.4:3010/"
+        target: "_blank"
+      - name: "Firefly"
+        logo: "assets/tools/firefly.jpg"
+        subtitle: "Money tracker"
+        tag: "app"
+        # Optional tagstyle
+        tagstyle: "is-success"
+        url: "http://10.0.0.4:8084/"
+        target: "_blank"
   - name: "Admin"
     icon: "fas fa-network-wired"
     items:

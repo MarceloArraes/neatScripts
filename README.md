@@ -1,23 +1,27 @@
 # neatScripts
 
-# to run the ansible script to setup zshell do this
+## to run the ansible script to setup zshell do this
 
 `ansible-playbook install-ohmyzsh.yml --ask-become-pass`
 
-# docker deluge
+## docker deluge
 
 `https://github.com/linuxserver/docker-deluge`
 
-# jellyfin
+## jellyfin
 
 `https://jellyfin.org/docs/general/installation/container/`
 `https://github.com/jellyfin/jellyfin`
 
-#
+## useful comands
 
 `xclip -selection clipboard < file.txt`
 
-# things I installed
+- To copy files from my pc to server:
+  `rsync -avz --progress takeout-20241023T004732Z-001.zip marceloserver@10.0.0.4:/home/marceloserver/Pictures`
+  `scp -r takeout-20241023T004732Z-001.zip  marceloserver@10.0.0.4:/home/marceloserver/Pictures`
+
+## things I installed
 
 - Tool to manipulate video:
   - `sudo apt install ffmpeg`
@@ -25,7 +29,9 @@
   - `sudo apt install xclip`
 -
 
-# Some things/commands i have being using often on my server journey
+## transfering files from local to
+
+## Some things/commands i have being using often on my server journey
 
 Docker commands:
 See images: docker images
