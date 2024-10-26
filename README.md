@@ -20,11 +20,19 @@
 - To copy files from my pc to server:
   `rsync -avz --progress takeout-20241023T004732Z-001.zip marceloserver@10.0.0.4:/home/marceloserver/Pictures`
   `scp -r takeout-20241023T004732Z-001.zip  marceloserver@10.0.0.4:/home/marceloserver/Pictures`
+- To see the progress of a file being changed (like a log)
+  `tail -f backup.log`
+- To download videos from youtube:
+  - `yt-dlp https://www.youtube.com/watch\?v\=Rvw6gMfs0yk`
+- To download videos and make it on audio mp3 and naming toasty.mp3:
+  - `yt-dlp -o toasty.mp3 -x https://www.youtube.com/watch\?v\=Rvw6gMfs0yk --audio-format mp3`
 
 ## things I installed
 
-- Tool to manipulate video:
+- Tool to manipulate audio and video:
+
   - `sudo apt install ffmpeg`
+
 - Tool to copy text to the clipboard with the terminal:
   - `sudo apt install xclip`
 -
@@ -39,10 +47,10 @@ See containers(the objects of images): docker ps
 To see all, even the stopped ones: docker ps -a
 
 Generate ssh:
-ssh-keygen -t rsa -b 4096
+`ssh-keygen -t rsa -b 4096`
 
 To copy ssh to server to not need to enter password each time:
-ssh-copy-id marceloserver@10.0.0.4
+`ssh-copy-id marceloserver@10.0.0.4`
 
 To use Docker compose (instead of Docker run … )
 Inside a folder with the compose.yaml file with the docker configs, run:
@@ -53,55 +61,42 @@ twingate start
 
 Allow new ports to go through the ubuntu firewall:
 
-sudo ufw allow 13378/tcp
+`sudo ufw allow 13378/tcp`
 
 See then:
-sudo ufw status
+`sudo ufw status`
 
 Configuring Postgres for connection to Nextcloud:
 <https://hub.docker.com/_/postgres/>
-sudo ufw s
-ssh-keygen -t rsa -b 4096
-$ docker run --name some-postgres -e POSTGRES_PASSWORD=mysecretpassword -d postgres
+`sudo ufw s`
+`ssh-keygen -t rsa -b 4096`
+`docker run --name some-postgres -e POSTGRES_PASSWORD=mysecretpassword -d postgres`
 
 Creating the database:
-postgres=# CREATE USER nextcloud WITH PASSWORD '**\*\***';  
-CREATE DATABASE nextclouddb TEMPLATE template0 ENCODING 'UNICODE';
-ALTER DATABASE nextclouddb OWNER TO nextcloud;
-GRANT ALL PRIVILEGES ON DATABASE nextclouddb TO nextcloud;
+`postgres=# CREATE USER nextcloud WITH PASSWORD '**\*\***';`
+`CREATE DATABASE nextclouddb TEMPLATE template0 ENCODING 'UNICODE';`
+`ALTER DATABASE nextclouddb OWNER TO nextcloud;`
+`GRANT ALL PRIVILEGES ON DATABASE nextclouddb TO nextcloud;`
 
 How to copy files from outside to inside my server:
-sudo scp -r "/home/marcelo/Downloads/" marceloserver@10.0.0.4:/home/yourusername/audiobooks
+`sudo scp -r "/home/marcelo/Downloads/" marceloserver@10.0.0.4:/home/yourusername/audiobooks`
 
 How to change the reboot mode of docker container:
-docker update --restart='always' 9b93de560f83
+`docker update --restart='always' 9b93de560f83`
 
 Things I did to schedule times for my server to be up and running:
-Edit the crontab File
-Open the crontab file for editing with:
-bash
-Copy code
-sudo crontab -e
-
-Add Cron Jobs for Shutdown
-Add the following lines to handle the shutdown at midnight and the special Tuesday schedule:
-bash
-Copy code
+`sudo crontab -e`
 
 ## Shutdown every day at midnight
 
-0 0 \* \* \* /sbin/shutdown -h now
+`0 0 \* \* \* /sbin/shutdown -h now`
 
 ## Special Tuesday shutdown at 10 PM
 
-0 22 \* _2 /sbin/shutdown -h now
-Here, 0 0_ \* _represents midnight every day, and 0 22_ \* 2 represents 10 PM on Tuesdays.
-Save and exit. 2. Schedule Startup Using systemd
-Create a Service Unit File
-Create a new service file for the reboot command:
-bash
-Copy code
-sudo nano /etc/systemd/system/reboot.service
+- Here, 0 0* \* \_represents midnight every day, and 0 22* \* 2 represents 10 PM on Tuesdays.
+  `0 22 \* _2 /sbin/shutdown -h now`
+
+`sudo nano /etc/systemd/system/reboot.service`
 Add the following content:
 ini
 Copy code
@@ -111,15 +106,19 @@ Description=Reboot the system
 [Service]
 Type=oneshot
 ExecStart=/sbin/reboot
+
 Save and exit.
+
 Create Timer Unit Files for Regular and Special Days
 Regular Day Timer: This timer will handle the startup at 17:30 for days other than Tuesday.
 bash
 Copy code
+
 sudo nano /etc/systemd/system/reboot-regular.timer
 Add the following content:
 ini
 Copy code
+
 [Unit]
 Description=Timer to reboot the system on regular days
 
