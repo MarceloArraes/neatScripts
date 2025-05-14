@@ -1,0 +1,19 @@
+version: "3"
+services:
+  n8n:
+    image: docker.n8n.io/n8nio/n8n
+    container_name: n8n
+    restart: unless-stopped
+    ports:
+      - "5678:5678"
+    volumes:
+      - n8n_data:/home/node/.n8n
+      - ./n8n_backups:/home/node/backups
+    environment:
+      - WEBHOOK_URL=https://n8n.marceloarraes.site # Your public Cloudflare URL
+      - N8N_HOST=0.0.0.0 # Required to accept external connections
+      - N8N_PROTOCOL=https # Optional but recommended for HTTPS
+
+volumes:
+  n8n_data:
+    name: n8n_data
