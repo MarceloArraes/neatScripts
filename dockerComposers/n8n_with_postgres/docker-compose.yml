@@ -31,7 +31,7 @@ services:
 
       - N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=true
       - N8N_RUNNERS_ENABLED=true
-
+      - GENERIC_TIMEZONE=Australia/Adelaide
       - WEBHOOK_URL=https://n8n.marceloarraes.site
       - N8N_HOST=0.0.0.0
       - N8N_PROTOCOL=https
