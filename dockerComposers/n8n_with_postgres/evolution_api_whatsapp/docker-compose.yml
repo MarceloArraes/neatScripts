@@ -1,0 +1,59 @@
+services:
+  api:
+    container_name: evolution_api
+    image: atendai/evolution-api:homolog
+    restart: always
+    depends_on:
+      - redis
+    ports:
+      - 8080:8080
+    volumes:
+      - evolution_instances:/evolution/instances
+    networks:
+      - n8n_default
+    env_file:
+      - .env
+    expose:
+      - 8080
+
+  redis:
+    image: redis:latest
+    networks:
+      - n8n_default
+    container_name: redis
+    command: >
+      redis-server --port 6379 --appendonly yes
+    volumes:
+      - evolution_redis:/data
+    ports:
+      - 6379:6379
+
+  # postgres:
+  #   container_name: postgres
+  #   image: postgres:15
+  #   networks:
+  #     - evolution-net
+  #   command:
+  #     ["postgres", "-c", "max_connections=1000", "-c", "listen_addresses=*"]
+  #   restart: always
+  #   ports:
+  #     - 5432:5432
+  #   environment:
+  #     - POSTGRES_USER=user
+  #     - POSTGRES_PASSWORD=pass
+  #     - POSTGRES_DB=evolution
+  #     - POSTGRES_HOST_AUTH_METHOD=trust
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+  #   expose:
+  #     - 5432
+
+volumes:
+  evolution_instances:
+  evolution_redis:
+
+networks:
+  n8n_default:
+    external: true
+    # name: n8n_default
+    # driver: bridge
