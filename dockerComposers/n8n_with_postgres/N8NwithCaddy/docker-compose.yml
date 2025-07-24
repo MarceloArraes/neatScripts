@@ -1,0 +1,99 @@
+version: "3.8" # Use a slightly newer version for broader compatibility
+
+services:
+  # --- N8N Services ---
+  n8n_postgres: # Renamed from 'postgres' to avoid conflict if you later uncomment the other postgres
+    image: postgres:15
+    container_name: n8n_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: n8n
+      POSTGRES_PASSWORD: n8npassword
+      POSTGRES_DB: n8n
+    volumes:
+      - n8n_postgres_data:/var/lib/postgresql/data
+    networks:
+      - n8n_default
+
+  n8n:
+    image: docker.n8n.io/n8nio/n8n
+    container_name: n8n
+    restart: unless-stopped
+    ports:
+      - "5678:5678"
+    expose: # <--- ADD THIS LINE
+      - "5678"
+    volumes:
+      - n8n_data:/home/node/.n8n
+      - ./n8n_backups:/home/node/backups # This is a bind mount to a local folder
+    environment:
+      - DB_TYPE=postgresdb
+      - DB_POSTGRESDB_HOST=n8n_postgres # Connects to the n8n_postgres service by its name
+      - DB_POSTGRESDB_PORT=5432
+      - DB_POSTGRESDB_DATABASE=n8n
+      - DB_POSTGRESDB_USER=n8n
+      - DB_POSTGRESDB_PASSWORD=n8npassword
+      - DB_POSTGRESDB_SCHEMA=public
+      - N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=true
+      - N8N_RUNNERS_ENABLED=true
+      - GENERIC_TIMEZONE=Australia/Adelaide
+      - WEBHOOK_URL=https://n8n.marceloarraes.site # <<< IMPORTANT: UPDATE THIS FOR YOUR SERVER'S NEW URL/IP
+      - N8N_HOST=0.0.0.0
+      - N8N_PROTOCOL=https
+      - N8N_SECURE_COOKIE=true
+    networks:
+      - n8n_default
+
+  # --- Evolution API Services ---
+  evolution_api: # Renamed from 'api' for clarity in a combined file
+    container_name: evolution_api
+    image: atendai/evolution-api:homolog
+    restart: unless-stopped
+    depends_on:
+      - redis # This will refer to the redis service defined below
+    ports:
+      - 8080:8080
+    volumes:
+      - evolution_instances:/evolution/instances
+    networks:
+      - n8n_default
+    env_file:
+      - .env # <<< IMPORTANT: Make sure this .env file is in the same directory as this compose file
+    expose:
+      - 8080
+
+  redis: # This is the redis for Evolution API, and n8n can also use it if configured.
+    image: redis:latest
+    restart: unless-stopped
+    networks:
+      - n8n_default
+    container_name: redis
+    command: >
+      redis-server --port 6379 --appendonly yes
+    volumes:
+      - evolution_redis:/data
+    ports:
+      - 6379:6379
+
+  cloudflared: 
+    image: cloudflare/cloudflared:latest
+    container_name: cloudflared
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run --token 
+    networks:
+      - n8n_default
+
+volumes:
+  evolution_instances:
+    name: evolution_instances # Explicitly name them for clarity and consistency
+  evolution_redis:
+    name: evolution_redis
+  n8n_data:
+    name: n8n_data
+  n8n_postgres_data: # The actual named volume for n8n's postgres data
+    name: n8n_postgres_data
+
+networks:
+  n8n_default:
+    name: n8n_default # Defines the shared network for all services
+    # No "external: true" here, as it's defined within this file now.
