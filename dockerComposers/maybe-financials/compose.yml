@@ -1,31 +1,4 @@
-# ===========================================================================
-# Example Docker Compose file
-# ===========================================================================
-#
-# Purpose:
-# --------
-#
-# This file is an example Docker Compose configuration for self hosting
-# Maybe on your local machine or on a cloud VPS.
-#
-# The configuration below is a "standard" setup that works out of the box,
-# but if you're running this outside of a local network, it is recommended
-# to set the environment variables for extra security.
-#
-# Setup:
-# ------
-#
-# To run this, you should read the setup guide:
-#
-# https://github.com/maybe-finance/maybe/blob/main/docs/hosting/docker.md
-#
-# Troubleshooting:
-# ----------------
-#
-# If you run into problems, you should open a Discussion here:
-#
-# https://github.com/maybe-finance/maybe/discussions/categories/general
-#
+# TO RUN: docker compose --env-file .env up -d
 
 x-db-env: &db_env
   POSTGRES_USER: ${POSTGRES_USER:-maybe_user}
@@ -34,7 +7,6 @@ x-db-env: &db_env
 
 x-rails-env: &rails_env
   <<: *db_env
-  SECRET_KEY_BASE: ${SECRET_KEY_BASE:-a7523c3d0ae56415046ad8abae168d71074a79534a7062258f8d1d51ac2f76d3c3bc86d86b6b0b307df30d9a6a90a2066a3fa9e67c5e6f374dbd7dd4e0778e13}
   SELF_HOSTED: "true"
   RAILS_FORCE_SSL: "false"
   RAILS_ASSUME_SSL: "false"
@@ -43,7 +15,8 @@ x-rails-env: &rails_env
   REDIS_URL: redis://redis:6379/1
 # NOTE: enabling OpenAI will incur costs when you use AI-related features in the app (chat, rules).  Make sure you have set appropriate spend limits on your account before adding this.
   # OPENAI_ACCESS_TOKEN: ${OPENAI_ACCESS_TOKEN}
-  OPENAI_ACCESS_TOKEN: ${OPENAI_ACCESS_TOKEN:-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}
+  SECRET_KEY_BASE: ${SECRET_KEY_BASE}
+  OPENAI_ACCESS_TOKEN: ${OPENAI_ACCESS_TOKEN}
 
 services:
   web:
