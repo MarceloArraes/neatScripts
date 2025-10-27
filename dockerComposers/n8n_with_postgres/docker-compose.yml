@@ -23,6 +23,7 @@ services:
       - n8n_data:/home/node/.n8n
       - ./n8n_backups:/home/node/backups
     environment:
+      - N8N_TRUST_PROXY=true
       - DB_TYPE=postgresdb
       - DB_POSTGRESDB_HOST=n8n_postgres
       - DB_POSTGRESDB_PORT=5432
@@ -33,7 +34,7 @@ services:
       - N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=true
       - N8N_RUNNERS_ENABLED=true
       - GENERIC_TIMEZONE=Australia/Adelaide
-      - WEBHOOK_URL=https://n8n.marceloarraes.site
+      - WEBHOOK_URL=https://automation.ordotech.space
       - N8N_HOST=0.0.0.0
       - N8N_PROTOCOL=https
     networks:
@@ -48,3 +49,4 @@ volumes:
 networks:
   default:
     name: n8n_default # This will create a network named exactly "n8n_default"
+    external: true

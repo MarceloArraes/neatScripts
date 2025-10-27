@@ -43,7 +43,7 @@ x-rails-env: &rails_env
   REDIS_URL: redis://redis:6379/1
 # NOTE: enabling OpenAI will incur costs when you use AI-related features in the app (chat, rules).  Make sure you have set appropriate spend limits on your account before adding this.
   # OPENAI_ACCESS_TOKEN: ${OPENAI_ACCESS_TOKEN}
-  OPENAI_ACCESS_TOKEN: ${OPENAI_ACCESS_TOKEN:-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}
+  OPENAI_ACCESS_TOKEN: ${OPENAI_ACCESS_TOKEN:-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}
 
 services:
   web:

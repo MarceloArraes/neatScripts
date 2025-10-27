@@ -1,0 +1,29 @@
+services:
+  sonarr:
+    image: 'lscr.io/linuxserver/sonarr:latest'
+    container_name: sonarr
+    ports:
+      - '8989:8989'
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+    volumes:
+      - '/home/marcelo/docker/sonarr/config:/config'  # Replace with your actual host path
+      - '/home/marcelo/Downloads:/downloads'  # Replace with your actual host path
+    restart: unless-stopped
+
+  ombi:
+    image: 'lscr.io/linuxserver/ombi:latest'
+    container_name: ombi
+    ports:
+      - '3579:3579'
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+    volumes:
+      - '/home/marcelo/docker/ombi/config:/config'  # Replace with your actual host path
+    restart: unless-stopped
+    depends_on:
+      - sonarr

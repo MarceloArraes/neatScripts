@@ -1,10 +1,10 @@
 services:
   api:
     container_name: evolution_api
-    image: atendai/evolution-api:homolog
+    image: atendai/evolution-api
     restart: unless-stopped
-    depends_on:
-      - redis
+#    depends_on:
+#      - redis
     ports:
       - 8080:8080
     volumes:

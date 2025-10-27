@@ -15,6 +15,9 @@
 
 ## useful comands
 
+### cloudflare command
+-  docker run --pull always -d --restart unless-stopped cloudflare/cloudflared:latest tunnel --no-autoupdate run --token <tokenhere>
+
 `xclip -selection clipboard < file.txt`
 
 - To copy files from my pc to server:
