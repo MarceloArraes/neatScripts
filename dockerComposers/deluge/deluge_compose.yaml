@@ -9,7 +9,7 @@ services:
       - DELUGE_LOGLEVEL=error #optional
     volumes:
       - /home/marceloserver/deluge/config:/config
-      - /home/marceloserver/Downloads:/downloads
+      - /home/marceloserver/Downloads/delugeMovies:/downloads
     ports:
       - 8112:8112
       - 6881:6881

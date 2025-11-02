@@ -1,0 +1,18 @@
+services:
+  jackett:
+    image: 'lscr.io/linuxserver/jackett:latest'
+    container_name: jackett
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+      - AUTO_UPDATE=true
+      - RUN_OPTS=
+    volumes:
+      - '/home/marcelo/docker/jackett/config:/config'
+      - '/home/marcelo/Downloads:/downloads'
+    depends_on:
+      - flaresolverr
+    ports:
+      - '9117:9117'
+    restart: unless-stopped

@@ -11,6 +11,7 @@ services:
     volumes:
       - '/home/marcelo/docker/sonarr/config:/config'  # Replace with your actual host path
       - '/home/marcelo/Downloads:/downloads'  # Replace with your actual host path
+      - /home/marcelo/media/tv:/tv
     restart: unless-stopped
 
   ombi:

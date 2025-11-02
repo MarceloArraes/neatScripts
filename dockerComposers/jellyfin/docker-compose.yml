@@ -4,15 +4,19 @@ services:
     container_name: jellyfin
     #network_mode: "host"
     ports:
-      - 8096:8096
+      - 8096:8096/tcp
+      - 7359:7359/udp
     volumes:
       - /home/marcelo/docker/jellyfin/config:/config
       - /home/marcelo/docker/jellyfin/cache:/cache
       - type: bind
-        source: /home/marcelo/Downloads
-        target: /media
+        source: /home/marcelo/media/movies  # Source on your host machine
+        target: /media/movies
       - type: bind
-        source: /home/marcelo/Downloads/torrentFiles
+        source: /home/marcelo/media/tv      # Add the TV shows folder
+        target: /media/tv
+      - type: bind
+        source: /home/marcelo/Downloads/delugeMovies
         target: /media2
         read_only: true
     restart: "unless-stopped"
@@ -20,7 +24,7 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - JELLYFIN_PublishedServerUrl=http://example.com
+      - JELLYFIN_PublishedServerUrl=https://videos.ordotech.space
     # Optional - may be necessary for docker healthcheck to pass if running in host network mode
     extra_hosts:
       - "host.docker.internal:host-gateway"
