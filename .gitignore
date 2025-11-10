@@ -4,3 +4,4 @@ dockerComposers/linguacafe/storage
 dockerComposers/linguacafe/database
 dockerComposers/linguacafe/cache
 dockerComposers/linguacafe/docker
+etc-pihole

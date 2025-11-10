@@ -15,8 +15,11 @@
 
 ## useful comands
 
-### cloudflare command
+### cloudflare tunnel command
 -  docker run --pull always -d --restart unless-stopped cloudflare/cloudflared:latest tunnel --no-autoupdate run --token <tokenhere>
+
+### cloudflare dns command
+-  docker run -d --name cloudflared-dns --restart unless-stopped -p 5053:5053/udp -p 5053:5053/tcp cloudflare/cloudflared:latest proxy-dns --address 0.0.0.0 --port 5053 --upstream https://dns9.quad9.net/dns-query
 
 `xclip -selection clipboard < file.txt`
 
