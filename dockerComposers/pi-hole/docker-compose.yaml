@@ -17,6 +17,7 @@ services:
       TZ: 'Australia/Adelaide'
       FTLCONF_webserver_api_password: 'qwertylll2' # Use your actual password
       FTLCONF_dns_listeningMode: 'all'
+      FTLCONF_webserver_port: 9090 # This moves the admin UI to port 8080
     volumes:
       - './etc-pihole:/etc/pihole'
     cap_add:
