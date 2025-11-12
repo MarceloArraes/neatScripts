@@ -5,7 +5,7 @@ services:
      container_name: appsmith
      ports:
          - "85:80"
-         - "443:443"
+         - "7443:443"
      volumes:
          - ./stacks:/appsmith-stacks
      restart: unless-stopped
