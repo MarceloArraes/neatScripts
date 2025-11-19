@@ -21,6 +21,9 @@
 ### cloudflare dns command
 -  docker run -d --name cloudflared-dns --restart unless-stopped -p 5053:5053/udp -p 5053:5053/tcp cloudflare/cloudflared:latest proxy-dns --address 0.0.0.0 --port 5053 --upstream https://dns9.quad9.net/dns-query
 
+### Coolify install command
+- curl -fsSL https://cdn.coollabs.io/coolify/install.sh | sudo bash
+
 `xclip -selection clipboard < file.txt`
 
 - To copy files from my pc to server:
