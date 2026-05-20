@@ -1,0 +1,12 @@
+services:
+  godot-editor:
+    build: .
+    container_name: godot-mcp
+    network_mode: host
+    volumes:
+      - /home/marcelo/projects/cynical:/project
+      # Optional: mount export templates for in-container exports
+      - /home/marcelo/.local/share/godot/export_templates:/root/.local/share/godot/export_templates
+    restart: unless-stopped
+    stdin_open: true
+    tty: true

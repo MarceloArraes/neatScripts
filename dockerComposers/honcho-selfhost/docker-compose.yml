@@ -1,0 +1,92 @@
+# Honcho Self-Hosted for Hermes Agent — Docker Compose
+# 
+# To reproduce on a fresh server:
+#   1. git clone --depth 1 https://github.com/plastic-labs/honcho.git ~/honcho-selfhost/honcho
+#   2. Copy this docker-compose.yml and config.toml into ~/honcho-selfhost/honcho/
+#   3. Create .env with your API keys (see .env.example below)
+#   4. docker compose up -d --build
+#
+# Services:
+#   api (port 8000)     — FastAPI REST API
+#   deriver             — Background observation extraction
+#   database (port 5432)— PostgreSQL + pgvector
+#   redis (port 6379)   — Cache
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    entrypoint: ["sh", "docker/entrypoint.sh"]
+    depends_on:
+      database:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    ports:
+      - "8001:8000"
+    env_file:
+      - .env
+    environment:
+      - DB_CONNECTION_URI=postgresql+psycopg://honcho:honcho@database:5432/honcho
+      - CACHE_URL=redis://redis:6379/0?suppress=true
+      - CACHE_ENABLED=true
+    volumes:
+      - ./docker/entrypoint.sh:/app/docker/entrypoint.sh:ro
+    restart: unless-stopped
+
+  deriver:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    entrypoint: ["/app/.venv/bin/python", "-m", "src.deriver"]
+    depends_on:
+      database:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    env_file:
+      - .env
+    environment:
+      - DB_CONNECTION_URI=postgresql+psycopg://honcho:honcho@database:5432/honcho
+      - CACHE_URL=redis://redis:6379/0?suppress=true
+      - CACHE_ENABLED=true
+      - METRICS_ENABLED=false
+    restart: unless-stopped
+
+  database:
+    image: pgvector/pgvector:pg15
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:5432:5432"
+    command: ["postgres", "-c", "max_connections=200"]
+    environment:
+      - POSTGRES_DB=honcho
+      - POSTGRES_USER=honcho
+      - POSTGRES_PASSWORD=honcho
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - pgdata:/var/lib/postgresql/data/
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U honcho -d honcho"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:8.2
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:6380:6379"
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  pgdata:
+  redis-data:

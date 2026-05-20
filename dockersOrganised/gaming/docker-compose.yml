@@ -1,0 +1,4 @@
+# dockersOrganised — Gaming group
+
+include:
+  - ./cynical-game/docker-compose.yml

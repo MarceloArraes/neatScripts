@@ -1,0 +1,6 @@
+# dockersOrganised — Automation group
+# Start all automation: docker compose up -d
+
+include:
+  - ./n8n/docker-compose.yml
+  - ./appsmith/docker-compose.yml

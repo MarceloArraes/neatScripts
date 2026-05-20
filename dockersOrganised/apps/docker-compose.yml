@@ -1,0 +1,6 @@
+# dockersOrganised — Apps group
+# Start all apps: docker compose up -d
+
+include:
+  - ./linguacafe/docker-compose.yml
+  - ./abibliadigital/docker-compose.yml

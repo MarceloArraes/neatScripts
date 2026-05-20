@@ -1,0 +1,10 @@
+# dockersOrganised — AI tools group
+# Start all AI services: docker compose up -d
+# Individual: docker compose up -d honcho
+
+include:
+  - ./honcho/docker-compose.yml
+  - ./godot-mcp/docker-compose.yml
+  - ./pandoc/docker-compose.yml
+  - ./debate-system/docker-compose.yml
+  - ./sanity-reader/docker-compose.yml

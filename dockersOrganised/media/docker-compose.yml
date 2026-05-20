@@ -1,0 +1,6 @@
+# dockersOrganised — Media group
+# Start all media services: docker compose up -d
+
+include:
+  - ./jellyfin/docker-compose.yml
+  - ./deluge/docker-compose.yml

@@ -1,0 +1,6 @@
+# dockersOrganised — Infrastructure group
+# Start all infra: docker compose up -d
+
+include:
+  - ./nginx/docker-compose.yml
+  - ./pi-hole/docker-compose.yaml

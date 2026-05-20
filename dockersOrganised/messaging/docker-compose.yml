@@ -1,0 +1,4 @@
+# dockersOrganised — Messaging group
+
+include:
+  - ./evolution-api/docker-compose.yml

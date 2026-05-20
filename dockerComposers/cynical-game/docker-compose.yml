@@ -1,0 +1,15 @@
+services:
+  cynical:
+    image: nginx:alpine
+    container_name: cynical-game
+    restart: unless-stopped
+    ports:
+      - "8084:80"
+    volumes:
+      - /home/marcelo/projects/cynical/build/web:/usr/share/nginx/html:ro
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:80/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
