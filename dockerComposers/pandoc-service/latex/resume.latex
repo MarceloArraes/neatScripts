@@ -1,0 +1,65 @@
+% Pandoc Resume Template
+% Usage: pandoc resume.md -o resume.pdf --template=resume --pdf-engine=xelatex
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[margin=0.65in]{geometry}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{parskip}
+
+% ── Hyperlinks ──
+\definecolor{accent}{HTML}{2c5282}
+\definecolor{gray}{HTML}{666666}
+
+% ── Hyperlinks ──
+\hypersetup{
+  colorlinks=true,
+  linkcolor=accent,
+  urlcolor=accent,
+  pdfborder={0 0 0},
+}
+
+% ── Section formatting: large, colored, with rule ──
+\titleformat{\section}
+  {\Large\bfseries\color{accent}}
+  {}
+  {0em}
+  {}[\vspace{-0.5em}\titlerule\vspace{0.5em}]
+\titlespacing{\section}{0pt}{14pt}{6pt}
+
+% ── Subsection: bold, dark ──
+\titleformat{\subsection}
+  {\normalsize\bfseries}
+  {}
+  {0em}
+  {}
+\titlespacing{\subsection}{0pt}{10pt}{2pt}
+
+% ── Compact lists ──
+\setlist{nosep,leftmargin=1.5em,itemsep=1pt}
+
+% ── No page numbers ──
+\pagenumbering{gobble}
+
+% ── Tighten everything ──
+\setlength{\parskip}{0pt}
+\setlength{\parsep}{0pt}
+
+% -- pandoc internals --
+\providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+\begin{document}
+
+$if(title)$
+\begin{center}
+  {\Huge\bfseries $title$}\\[3pt]
+  $if(author)${\normalsize\color{gray}$author$}$endif$
+\end{center}
+\vspace{-6pt}
+$endif$
+
+$body$
+
+\end{document}

@@ -8,3 +8,5 @@ etc-pihole
 data
 letsencrypt
 honcho
+dockerComposers/pandoc-service/__pycache__/app.cpython-311.pyc
+dockerComposers/pandoc-service/__pycache__/app.cpython-311.pyc

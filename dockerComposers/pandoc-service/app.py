@@ -24,6 +24,13 @@ TEMPLATE = next((t for t in _TEMPLATE_CANDIDATES if (
     t == "eisvogel" or Path(t).exists()
 )), "eisvogel")
 
+# Additional templates for the UI dropdown
+TEMPLATES = {
+    "document": TEMPLATE,                                     # Eisvogel
+    "resume":   "/usr/local/share/pandoc/templates/resume.latex",
+    "plain":    "/usr/local/share/pandoc/templates/plain.latex",
+}
+
 UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -46,6 +53,9 @@ def index():
 @app.route("/convert", methods=["POST"])
 def convert():
     title = (request.form.get("title") or "Document").strip()
+    template_key = (request.form.get("template") or "document").strip()
+    if template_key not in TEMPLATES:
+        template_key = "document"
     markdown_text = (request.form.get("markdown") or "").strip()
 
     # Legacy single file upload (backward compat)
@@ -99,27 +109,42 @@ def convert():
 
         # --- Convert ---
         pdf_path = OUTPUT_DIR / f"{job_id}.pdf"
+        template_path = TEMPLATES[template_key]
 
         cmd = [
             "pandoc", str(md_path),
             "-o", str(pdf_path),
             "--pdf-engine=xelatex",
-            f"--template={TEMPLATE}",
-            "--resource-path", f"uploads/{job_id}",      # !! where pandoc looks for images
-            "--syntax-highlighting=idiomatic",
-            "--number-sections",
+            f"--template={template_path}",
+            "--resource-path", f"uploads/{job_id}",
             "--metadata", f"title={title}",
-            "-V", "colorlinks=true",
-            "-V", "linkcolor=blue",
-            "-V", "toc=false",
-            "-V", "titlepage=true",
-            "-V", "titlepage-color=4a6fa5",
-            "-V", "titlepage-text-color=FFFFFF",
-            "-V", "titlepage-rule-color=FFFFFF",
-            "-V", "titlepage-rule-height=2",
-            "-V", "geometry:margin=1in",
-            "-V", "fontsize=11pt",
         ]
+
+        # Template-specific options
+        if template_key == "document":
+            cmd += [
+                "--syntax-highlighting=idiomatic",
+                "--number-sections",
+                "-V", "colorlinks=true",
+                "-V", "linkcolor=blue",
+                "-V", "toc=false",
+                "-V", "titlepage=true",
+                "-V", "titlepage-color=4a6fa5",
+                "-V", "titlepage-text-color=FFFFFF",
+                "-V", "titlepage-rule-color=FFFFFF",
+                "-V", "titlepage-rule-height=2",
+                "-V", "geometry:margin=1in",
+                "-V", "fontsize=11pt",
+            ]
+        elif template_key == "resume":
+            cmd += [
+                "-V", "author=",
+            ]
+        elif template_key == "plain":
+            cmd += [
+                "-V", "author=",
+                "-V", "date=",
+            ]
 
         try:
             result = subprocess.run(cmd, capture_output=True, text=True, timeout=180)

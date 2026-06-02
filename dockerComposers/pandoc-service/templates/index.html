@@ -52,8 +52,15 @@
       border-radius: var(--radius); color: var(--text); font-size: 0.9rem; padding: 0.75rem;
       transition: border-color 0.2s;
     }
-    input[type="text"]:focus, textarea:focus {
+    input[type="text"]:focus, textarea:focus, select:focus {
       outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-light);
+    }
+    select {
+      width: 100%; background: var(--bg); border: 1px solid var(--border);
+      border-radius: var(--radius); color: var(--text); font-size: 0.9rem; padding: 0.75rem;
+      cursor: pointer; transition: border-color 0.2s;
+      appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23909296' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 0.75rem center; padding-right: 2rem;
     }
     textarea {
       font-family: "Fira Code", "JetBrains Mono", "SF Mono", Consolas, monospace;
@@ -159,6 +166,15 @@
         <div class="form-group">
           <label for="title">Document Title</label>
           <input type="text" id="title" name="title" placeholder="My Document" maxlength="200">
+        </div>
+
+        <div class="form-group">
+          <label for="template">Template</label>
+          <select id="template" name="template">
+            <option value="document">📄 Document — structured, title page, Eisvogel</option>
+            <option value="resume">💼 Resume — compact CV layout</option>
+            <option value="plain">📝 Plain — clean, no frills</option>
+          </select>
         </div>
 
         <div class="form-group">
@@ -362,6 +378,7 @@ Insert images by filename — upload them below!</textarea>
       try {
         const formData = new FormData();
         formData.append('title', document.getElementById('title').value);
+        formData.append('template', document.getElementById('template').value);
         formData.append('markdown', text);
         if (mdFile) formData.append('file', mdFile);
         Array.from(attachedFiles.files).forEach(f => formData.append('files', f));

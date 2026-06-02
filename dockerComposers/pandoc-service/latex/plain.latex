@@ -1,0 +1,44 @@
+% Pandoc Plain Template — clean markdown to PDF, no frills
+% Usage: pandoc doc.md -o doc.pdf --template=plain --pdf-engine=xelatex
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{parskip}
+\usepackage{fancyhdr}
+
+% ── Hyperlinks ──
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  urlcolor=blue,
+  pdfborder={0 0 0},
+}
+
+% ── No title page, no section numbering ──
+\setcounter{secnumdepth}{0}
+
+% ── Page layout ──
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+
+% -- pandoc internals --
+\providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+\begin{document}
+
+$if(title)$
+\begin{center}
+  {\LARGE\bfseries $title$}\\[4pt]
+  $if(author)${\large $author$}\\[2pt]$endif$
+  $if(date)${\small $date$}$endif$
+\end{center}
+\vspace{1em}
+$endif$
+
+$body$
+
+\end{document}

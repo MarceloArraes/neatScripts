@@ -21,6 +21,7 @@ RUN mkdir -p /usr/local/share/pandoc/templates && \
 WORKDIR /app
 COPY app.py /app/
 COPY templates/ /app/templates/
+COPY latex/ /usr/local/share/pandoc/templates/
 RUN mkdir -p /app/uploads /app/outputs
 
 EXPOSE 3333
