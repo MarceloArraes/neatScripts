@@ -1,0 +1,37 @@
+# Hermes WebUI — single-container Docker Compose
+# Pre-built image from GHCR, mounts existing ~/.hermes for shared state.
+#
+# QUICK START:
+#   docker compose up -d
+#   Open http://localhost:8787
+#
+# Your existing config.yaml, models, sessions, skills, and memory are
+# shared between this container and the host-level hermes-agent.
+
+services:
+  hermes-webui:
+    image: ghcr.io/nesquena/hermes-webui:latest
+    container_name: hermes-webui
+    ports:
+      # Bind to all interfaces for LAN access (password required)
+      - "8787:8787"
+    volumes:
+      # Share your existing Hermes state (config, sessions, skills, memory)
+      - ~/.hermes:/home/hermeswebui/.hermes
+      # Workspace for the file browser
+      - ~/projects:/workspace
+    environment:
+      - WANTED_UID=${UID:-1000}
+      - WANTED_GID=${GID:-1000}
+      - HERMES_WEBUI_HOST=0.0.0.0
+      - HERMES_WEBUI_PORT=8787
+      - HERMES_WEBUI_STATE_DIR=/home/hermeswebui/.hermes/webui
+      # Bind-mount permission handling
+      - HERMES_SKIP_CHMOD=1
+      # Password required since we bind to all interfaces
+      - HERMES_WEBUI_PASSWORD=${HERMES_WEBUI_PASSWORD}
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
